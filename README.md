@@ -12,10 +12,12 @@ Wappler App Connect extension for rendering [Lucide](https://lucide.dev/) icons 
 
 ## Installation
 
-1. Copy this `wappler-lucide-icons` folder into your Wappler project, for example under `src/wappler-lucide-icons`.
+1. Put this extension folder inside your Wappler project, for example `src/wappler-lucide-icons`. Do not open this extension folder itself as a separate Wappler project.
 2. In Wappler, open Project Settings, then Extensions.
 3. Add or refresh the extension so Wappler detects this package.
 4. Insert the `Lucide Icon` App Connect component from the component picker.
+
+If the component does not appear, remove the old installed extension entry, save Project Settings, close Wappler, reopen it, then add/install version `1.1.1` or later. Wappler/npm can cache same-version extension installs, so reinstalling `1.1.0` may keep the old broken metadata.
 
 ## Development
 

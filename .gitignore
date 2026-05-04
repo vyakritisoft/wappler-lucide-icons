@@ -3,3 +3,4 @@ npm-debug.log*
 generated/
 .DS_Store
 graphify-out/
+.wappler/

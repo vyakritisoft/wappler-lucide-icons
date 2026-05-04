@@ -40,11 +40,9 @@ function createNode(tagName) {
 }
 
 const rootFile = path.join(__dirname, 'app_connect', 'components.hjson');
-const legacyFile = path.join(__dirname, 'app_connect', 'components', 'lucide.hjson');
 
 assert(fs.existsSync(rootFile), 'Wappler requires app_connect/components.hjson');
-assert(fs.existsSync(legacyFile), 'legacy app_connect/components/lucide.hjson should remain in sync');
-assert(fs.readFileSync(rootFile, 'utf8') === fs.readFileSync(legacyFile, 'utf8'), 'root and legacy component metadata differ');
+assert(!fs.existsSync(path.join(__dirname, 'app_connect', 'components')), 'avoid nested app_connect/components directory because Wappler expects a single components.hjson file');
 
 const metadata = parseHjsonLike(rootFile);
 assert(Array.isArray(metadata.components), 'components must be an array');
