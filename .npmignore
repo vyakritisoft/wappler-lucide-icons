@@ -4,4 +4,5 @@ npm-debug.log*
 *.tgz
 .wappler/
 .git/
+.github/
 test/
