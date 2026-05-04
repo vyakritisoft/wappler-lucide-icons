@@ -17,9 +17,9 @@
           group: 'Lucide Icon Properties',
           variables: [
             { name: 'iconId', attribute: 'id', title: 'ID', type: 'text', defaultValue: '', required: true },
-            { name: 'iconName', attribute: 'icon', title: 'Icon Name', type: 'text', defaultValue: 'menu', required: true, dataBindings: true, help: 'Lucide icon name in kebab-case, for example menu, settings, arrow-right, circle-help.' },
+            { name: 'iconName', attribute: 'icon', title: 'Icon Name', type: 'text', defaultValue: 'menu', required: true, help: 'Lucide icon name in kebab-case, for example menu, settings, arrow-right, circle-help.' },
             { name: 'iconSize', attribute: 'size', title: 'Size', type: 'text', defaultValue: '24', dataBindings: true, help: 'Icon width and height in pixels. Enter a number, for example 24 or 32.' },
-            { name: 'iconColor', attribute: 'color', title: 'Color', type: 'text', defaultValue: 'currentColor', dataBindings: true, help: 'Any CSS color, for example currentColor, #0d6efd, rgb(10, 20, 30), or var(--bs-primary).' },
+            { name: 'iconColor', attribute: 'color', title: 'Color', type: 'text', defaultValue: 'currentColor', help: 'Any CSS color, for example currentColor, #0d6efd, rgb(10, 20, 30), or var(--bs-primary).' },
             { name: 'iconStrokeWidth', attribute: 'stroke-width', title: 'Stroke Width', type: 'text', defaultValue: '2', dataBindings: true, help: 'SVG stroke width. Enter a number, for example 1.5, 2, or 3.' },
             { name: 'iconLabel', attribute: 'label', title: 'Accessible Label', type: 'text', defaultValue: '', dataBindings: true, help: 'Optional label for meaningful icons. Leave empty for decorative icons.' }
           ]

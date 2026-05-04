@@ -58,7 +58,9 @@ const variables = component.properties.flatMap((group) => group.variables || [])
 assert(!variables.some((variable) => variable.type === 'droplist' || variable.type === 'select'), 'dropdown/select controls are not allowed');
 const byAttribute = Object.fromEntries(variables.map((variable) => [variable.attribute, variable]));
 assert(byAttribute.icon.type === 'text', 'icon must be manual text input');
+assert(byAttribute.icon.dataBindings !== true, 'icon must be direct input, not data binding input');
 assert(byAttribute.color.type === 'text', 'color must be manual text input');
+assert(byAttribute.color.dataBindings !== true, 'color must be direct input, not data binding input');
 assert(byAttribute.size.type === 'text', 'size must be text input for Wappler persistence');
 assert(byAttribute.size.defaultValue === '24', 'size default must be a string for Wappler persistence');
 assert(byAttribute['stroke-width'].type === 'text', 'stroke width must be text input for Wappler persistence');
