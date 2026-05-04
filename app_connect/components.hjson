@@ -1,0 +1,50 @@
+{
+  components: [
+    {
+      name: 'lucide_icon',
+      type: 'dmx-lucide-icon',
+      selector: 'dmx-lucide-icon, [is=dmx-lucide-icon]',
+      framework: 'app_connect',
+      groupTitle: 'Lucide',
+      groupIcon: 'fa fa-lg fa-icons',
+      title: 'Lucide Icon',
+      icon: 'fa fa-lg fa-icons',
+      state: 'opened',
+      anyParent: true,
+      template: '<dmx-lucide-icon id="@@id@@" icon="menu"></dmx-lucide-icon>',
+      baseName: 'lucide',
+      help: 'Render a Lucide SVG icon using the Lucide CDN.',
+      properties: [
+        {
+          group: 'Lucide Icon Properties',
+          variables: [
+            { name: 'iconId', attribute: 'id', title: 'ID', type: 'text', defaultValue: '', required: true },
+            { name: 'iconName', attribute: 'icon', title: 'Icon Name', type: 'text', defaultValue: 'menu', required: true, dataBindings: true, help: 'Enter a Lucide icon name in kebab-case, such as menu, x, settings, arrow-right, or circle-help.' },
+            { name: 'iconSize', attribute: 'size', title: 'Size', type: 'number', defaultValue: 24, dataBindings: true, help: 'Icon width and height in pixels.' },
+            { name: 'iconColor', attribute: 'color', title: 'Color', type: 'text', defaultValue: 'currentColor', dataBindings: true, help: 'Any CSS color, such as currentColor, #0d6efd, rgb(10, 20, 30), or var(--bs-primary).' },
+            { name: 'iconStrokeWidth', attribute: 'stroke-width', title: 'Stroke Width', type: 'number', defaultValue: 2, dataBindings: true },
+            { name: 'iconAbsoluteStrokeWidth', attribute: 'absolute-stroke-width', title: 'Absolute Stroke Width', type: 'boolean', defaultValue: false },
+            { name: 'iconTitle', attribute: 'label', title: 'Accessible Label', type: 'text', defaultValue: '', dataBindings: true, help: 'Optional accessible label. Leave empty for decorative icons.' }
+          ]
+        }
+      ],
+      children: [],
+      allowed_children: {},
+      copyFiles: [
+        { src: 'includes/dmx-lucide-icon.js', dst: 'js/dmx-lucide-icon.js' }
+      ],
+      linkFiles: [
+        { src: 'https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js', type: 'js', defer: true, detect: 'lucide(@1\\.8\\.0)?/dist/umd/lucide\\.min\\.js' },
+        { src: 'js/dmx-lucide-icon.js', type: 'js', defer: true }
+      ],
+      cssOrder: [],
+      jsOrder: [
+        'https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js',
+        'js/dmx-lucide-icon.js'
+      ]
+    }
+  ],
+  attributes: [],
+  events: [],
+  static_events: []
+}
