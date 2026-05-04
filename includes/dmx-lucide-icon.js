@@ -1,10 +1,6 @@
 (function () {
   'use strict';
 
-  if (!window.dmx || !window.dmx.Component) {
-    return;
-  }
-
   function numberOrDefault(value, fallback) {
     var number = Number(value);
     return Number.isFinite(number) && number > 0 ? number : fallback;
@@ -24,6 +20,98 @@
     } else {
       window.console.warn(message);
     }
+  }
+
+  function createLucideIcons(root) {
+    if (!window.lucide || typeof window.lucide.createIcons !== 'function') {
+      return false;
+    }
+
+    try {
+      window.lucide.createIcons({
+        root: root || document,
+        nameAttr: 'data-lucide'
+      });
+      return true;
+    } catch (error) {
+      warn('[dmx-lucide-icon] Unable to render Lucide icons.', error);
+      return true;
+    }
+  }
+
+  function installAutoRenderer() {
+    var retryCount = 0;
+    var retryTimer = null;
+    var renderTimer = null;
+    var observer = null;
+
+    function scheduleRender() {
+      if (renderTimer) {
+        return;
+      }
+
+      renderTimer = setTimeout(function () {
+        renderTimer = null;
+        renderDocumentIcons();
+      }, 0);
+    }
+
+    function renderDocumentIcons() {
+      if (createLucideIcons(document)) {
+        return;
+      }
+
+      if (retryCount >= 100) {
+        warn('[dmx-lucide-icon] Lucide library was not loaded after 5 seconds.');
+        return;
+      }
+
+      retryCount += 1;
+      retryTimer = setTimeout(function () {
+        retryTimer = null;
+        renderDocumentIcons();
+      }, 50);
+    }
+
+    function startObserver() {
+      if (!window.MutationObserver || observer || !document.documentElement) {
+        return;
+      }
+
+      observer = new MutationObserver(function (mutations) {
+        for (var i = 0; i < mutations.length; i += 1) {
+          if (mutations[i].type === 'childList' || mutations[i].attributeName === 'data-lucide') {
+            scheduleRender();
+            return;
+          }
+        }
+      });
+
+      observer.observe(document.documentElement, {
+        childList: true,
+        subtree: true,
+        attributes: true,
+        attributeFilter: ['data-lucide']
+      });
+    }
+
+    if (document.readyState === 'loading' && typeof document.addEventListener === 'function') {
+      document.addEventListener('DOMContentLoaded', renderDocumentIcons);
+    } else {
+      renderDocumentIcons();
+    }
+
+    if (typeof window.addEventListener === 'function') {
+      window.addEventListener('load', renderDocumentIcons);
+    }
+
+    startObserver();
+  }
+
+  installAutoRenderer();
+
+  if (!window.dmx || !window.dmx.Component) {
+    return;
   }
 
   window.dmx.Component('lucide-icon', {
@@ -98,15 +186,7 @@
     },
 
     _createIcon: function () {
-      if (window.lucide && typeof window.lucide.createIcons === 'function') {
-        try {
-          window.lucide.createIcons({
-            root: this.$node,
-            nameAttr: 'data-lucide'
-          });
-        } catch (error) {
-          warn('[dmx-lucide-icon] Unable to render Lucide icon.', error);
-        }
+      if (createLucideIcons(this.$node)) {
         return;
       }
 

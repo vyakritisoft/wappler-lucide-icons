@@ -17,9 +17,13 @@ This rebuild intentionally uses **manual text input** for icon names. There are 
 
 ## Usage
 
+### Wappler component syntax
+
 ```html
 <dmx-lucide-icon id="my_icon" icon="menu"></dmx-lucide-icon>
 ```
+
+This is the recommended syntax when you want Wappler App Connect properties, dynamic bindings, and automatic updates.
 
 Examples of icon names:
 
@@ -43,6 +47,36 @@ With options:
   label="Next"
 ></dmx-lucide-icon>
 ```
+
+### Native Lucide syntax
+
+You can also use Lucide's native `data-lucide` markup:
+
+```html
+<i data-lucide="menu"></i>
+```
+
+With options:
+
+```html
+<i
+  data-lucide="arrow-right"
+  width="32"
+  height="32"
+  stroke-width="2"
+  stroke="#0d6efd"
+  aria-label="Next"
+  role="img"
+></i>
+```
+
+This syntax is useful for static HTML or when migrating existing Lucide markup. The extension runtime automatically scans and renders `[data-lucide]` elements.
+
+## Choosing a syntax
+
+* Use `<dmx-lucide-icon>` for Wappler/App Connect dynamic data and component properties.
+* Use `<i data-lucide="..."></i>` for simple static icons or compatibility with Lucide documentation/examples.
+* Both syntaxes can be used on the same page.
 
 ## Notes
 
