@@ -59,8 +59,10 @@ assert(!variables.some((variable) => variable.type === 'droplist' || variable.ty
 const byAttribute = Object.fromEntries(variables.map((variable) => [variable.attribute, variable]));
 assert(byAttribute.icon.type === 'text', 'icon must be manual text input');
 assert(byAttribute.color.type === 'text', 'color must be manual text input');
-assert(byAttribute.size.type === 'number', 'size must be number input');
-assert(byAttribute['stroke-width'].type === 'number', 'stroke width must be number input');
+assert(byAttribute.size.type === 'text', 'size must be text input for Wappler persistence');
+assert(byAttribute.size.defaultValue === '24', 'size default must be a string for Wappler persistence');
+assert(byAttribute['stroke-width'].type === 'text', 'stroke width must be text input for Wappler persistence');
+assert(byAttribute['stroke-width'].defaultValue === '2', 'stroke width default must be a string for Wappler persistence');
 
 const context = {
   window: {},
