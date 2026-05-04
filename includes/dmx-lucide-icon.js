@@ -1,34 +1,32 @@
 (function () {
   'use strict';
 
-  if (!window.dmx || !dmx.Component) {
+  if (!window.dmx || !window.dmx.Component) {
     return;
   }
 
-  function toNumber(value, fallback) {
+  function numberOrDefault(value, fallback) {
     var number = Number(value);
     return Number.isFinite(number) && number > 0 ? number : fallback;
   }
 
-  function toBoolean(value) {
-    return value === true || value === 'true' || value === '' || value === 1 || value === '1';
-  }
-
-  function cleanIconName(value) {
+  function normalizeIconName(value) {
     return String(value || '').trim();
   }
 
   function warn(message, error) {
-    if (window.console && typeof window.console.warn === 'function') {
-      if (error) {
-        window.console.warn(message, error);
-      } else {
-        window.console.warn(message);
-      }
+    if (!window.console || typeof window.console.warn !== 'function') {
+      return;
+    }
+
+    if (error) {
+      window.console.warn(message, error);
+    } else {
+      window.console.warn(message);
     }
   }
 
-  dmx.Component('lucide-icon', {
+  window.dmx.Component('lucide-icon', {
     attributes: {
       icon: {
         type: String,
@@ -46,10 +44,6 @@
         type: Number,
         default: 2
       },
-      absoluteStrokeWidth: {
-        type: Boolean,
-        default: false
-      },
       label: {
         type: String,
         default: ''
@@ -59,7 +53,6 @@
     render: function () {
       this._retryTimer = null;
       this._retryCount = 0;
-      this._hasWarnedMissingLucide = false;
       this._renderIcon();
     },
 
@@ -71,75 +64,61 @@
       this._clearRetryTimer();
     },
 
-    dispose: function () {
-      this._clearRetryTimer();
-    },
-
     _renderIcon: function () {
       this._clearRetryTimer();
-      this._retryCount = 0;
 
-      var icon = cleanIconName(this.props.icon);
-
+      var icon = normalizeIconName(this.props.icon);
       if (!icon) {
         this.$node.innerHTML = '';
         return;
       }
 
-      var size = toNumber(this.props.size, 24);
-      var strokeWidth = toNumber(this.props.strokeWidth, 2);
-      if (toBoolean(this.props.absoluteStrokeWidth)) {
-        strokeWidth = Number((strokeWidth * 24 / size).toFixed(4));
-      }
-
+      var size = numberOrDefault(this.props.size, 24);
+      var strokeWidth = numberOrDefault(this.props.strokeWidth, 2);
       var color = this.props.color || 'currentColor';
       var label = String(this.props.label || '').trim();
-      var span = document.createElement('span');
+      var placeholder = document.createElement('span');
 
-      span.setAttribute('data-lucide', icon);
-      span.setAttribute('width', String(size));
-      span.setAttribute('height', String(size));
-      span.setAttribute('stroke-width', String(strokeWidth));
-      span.setAttribute('stroke', color);
+      placeholder.setAttribute('data-lucide', icon);
+      placeholder.setAttribute('width', String(size));
+      placeholder.setAttribute('height', String(size));
+      placeholder.setAttribute('stroke-width', String(strokeWidth));
+      placeholder.setAttribute('stroke', color);
 
       if (label) {
-        span.setAttribute('aria-label', label);
-        span.setAttribute('role', 'img');
+        placeholder.setAttribute('role', 'img');
+        placeholder.setAttribute('aria-label', label);
       } else {
-        span.setAttribute('aria-hidden', 'true');
+        placeholder.setAttribute('aria-hidden', 'true');
       }
 
       this.$node.innerHTML = '';
-      this.$node.appendChild(span);
-      this._createIcons();
+      this.$node.appendChild(placeholder);
+      this._createIcon();
     },
 
-    _createIcons: function () {
+    _createIcon: function () {
       if (window.lucide && typeof window.lucide.createIcons === 'function') {
         try {
           window.lucide.createIcons({
             root: this.$node,
-            icons: window.lucide,
             nameAttr: 'data-lucide'
           });
         } catch (error) {
-          warn('[dmx-lucide-icon] Unable to render icon:', error);
+          warn('[dmx-lucide-icon] Unable to render Lucide icon.', error);
         }
         return;
       }
 
       if (this._retryCount >= 100) {
-        if (!this._hasWarnedMissingLucide) {
-          warn('[dmx-lucide-icon] Lucide did not load after 5 seconds; icon rendering stopped.');
-          this._hasWarnedMissingLucide = true;
-        }
+        warn('[dmx-lucide-icon] Lucide library was not loaded after 5 seconds.');
         return;
       }
 
       this._retryCount += 1;
       this._retryTimer = setTimeout(function () {
         this._retryTimer = null;
-        this._createIcons();
+        this._createIcon();
       }.bind(this), 50);
     },
 

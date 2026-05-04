@@ -1,16 +1,7 @@
 {
   "name": "wappler-lucide-icons",
-  "version": "1.1.1",
-  "description": "Wappler App Connect extension for rendering Lucide icons from the CDN.",
-  "author": "",
-  "license": "ISC",
-  "wappler": {
-    "type": "extension"
-  },
-  "scripts": {
-    "generate:icons": "node scripts/generate-icons.js",
-    "test": "node test.js"
-  },
+  "version": "2.0.0",
+  "description": "Wappler App Connect extension for rendering Lucide icons with manual icon names.",
   "keywords": [
     "wappler-extension",
     "wappler",
@@ -18,9 +9,13 @@
     "lucide",
     "icons"
   ],
+  "author": "",
+  "license": "MIT",
+  "scripts": {
+    "test": "node test/validate.js",
+    "pack:dry": "npm pack --dry-run"
+  },
   "devDependencies": {
-    "hjson": "3.2.2",
-    "jsdom": "29.0.2",
-    "lucide": "1.8.0"
+    "hjson": "3.2.2"
   }
 }

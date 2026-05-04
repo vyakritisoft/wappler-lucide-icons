@@ -1,6 +1,5 @@
 node_modules/
 npm-debug.log*
-generated/
 .DS_Store
-graphify-out/
+*.tgz
 .wappler/

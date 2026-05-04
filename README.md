@@ -1,83 +1,73 @@
 # Wappler Lucide Icons
 
-Wappler App Connect extension for rendering [Lucide](https://lucide.dev/) icons from a pinned CDN build.
+A clean Wappler App Connect extension for rendering [Lucide](https://lucide.dev/) icons.
+
+This rebuild intentionally uses **manual text input** for icon names. There are no select/dropdown icon pickers.
 
 ## Files
 
-- `app_connect/components.hjson` registers the visual Wappler component and links required scripts.
-- `includes/dmx-lucide-icon.js` is copied by Wappler to `js/dmx-lucide-icon.js`.
-- Lucide is loaded from `https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js`.
-- `scripts/generate-icons.js` generates an optional full Lucide icon reference from the pinned `lucide@1.8.0` package.
-- `test/run-tests.js` validates the component metadata and browser runtime behavior.
-
-## Installation
-
-1. Put this extension folder inside your Wappler project, for example `src/wappler-lucide-icons`. Do not open this extension folder itself as a separate Wappler project.
-2. In Wappler, open Project Settings, then Extensions.
-3. Add or refresh the extension so Wappler detects this package.
-4. Insert the `Lucide Icon` App Connect component from the component picker.
-
-If the component does not appear, remove the old installed extension entry, save Project Settings, close Wappler, reopen it, then add/install version `1.1.1` or later. Wappler/npm can cache same-version extension installs, so reinstalling `1.1.0` may keep the old broken metadata.
-
-## Development
-
-Install the exact validation dependencies:
-
-```sh
-npm install
+```text
+app_connect/components.hjson      Wappler UI/component definition
+includes/dmx-lucide-icon.js       App Connect runtime component
+package.json                      Extension package metadata
+test/validate.js                  Validation test
 ```
 
-Generate a full Lucide icon reference after changing the pinned Lucide version:
+## Install in Wappler
 
-```sh
-npm run generate:icons
-```
-
-Run the validation suite:
-
-```sh
-npm test
-```
+1. Place this folder inside your Wappler project, for example:
+   ```text
+   src/wappler-lucide-icons
+   ```
+2. In Wappler, open **Project Settings → Extensions**.
+3. Add this extension folder/package.
+4. Restart Wappler if needed.
+5. In the App Connect component picker, look for:
+   ```text
+   Lucide → Lucide Icon
+   ```
 
 ## Usage
 
 ```html
-<dmx-lucide-icon id="icon1" icon="menu"></dmx-lucide-icon>
+<dmx-lucide-icon id="my_icon" icon="menu"></dmx-lucide-icon>
 ```
 
-With styling properties:
+Examples of icon names:
+
+```text
+menu
+settings
+arrow-right
+circle-help
+shopping-cart
+```
+
+With options:
 
 ```html
 <dmx-lucide-icon
-  id="settings_icon"
-  icon="settings"
+  id="next_icon"
+  icon="arrow-right"
   size="32"
-  color="currentColor"
+  color="#0d6efd"
   stroke-width="2"
+  label="Next"
 ></dmx-lucide-icon>
 ```
 
-The Wappler properties panel uses text inputs for the Lucide icon name and color. This keeps the extension compatible with Wappler's App Connect extension loader. Enter any Lucide kebab-case icon name, for example `menu`, `x`, `settings`, `arrow-right`, or `circle-help`. The color field accepts any CSS color such as `currentColor`, `#ff00aa`, `rgb(10, 20, 30)`, or `var(--bs-primary)`.
+## Validation
 
-With App Connect bindings:
-
-```html
-<dmx-lucide-icon
-  dmx-bind:icon="selected_icon"
-  dmx-bind:color="theme_color"
-  dmx-bind:size="icon_size"
-></dmx-lucide-icon>
-```
-
-Add `label` when the icon conveys meaning. Leave it empty for decorative icons.
-
-```html
-<dmx-lucide-icon icon="save" label="Save"></dmx-lucide-icon>
+```sh
+npm install
+npm test
+npm pack --dry-run
 ```
 
 ## Notes
 
-- Icon names use Lucide's kebab-case names, such as `menu`, `x`, `settings`, and `arrow-right`.
-- The component re-runs `lucide.createIcons({ root: this.$node })` after App Connect updates so dynamic icon names can change at runtime without scanning the whole document.
-- If the CDN script does not load, the component retries for 5 seconds, logs one warning, and then stops retrying.
-- To change the Lucide version, update the CDN URL in `app_connect/components.hjson`.
+- Icon names must be Lucide kebab-case names.
+- Lucide is loaded from the pinned CDN URL:
+  `https://unpkg.com/lucide@1.8.0/dist/umd/lucide.min.js`
+- Runtime script is copied by Wappler to:
+  `js/dmx-lucide-icon.js`
