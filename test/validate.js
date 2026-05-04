@@ -63,8 +63,13 @@ assert(byAttribute.color.type === 'text', 'color must be manual text input');
 assert(byAttribute.color.dataBindings !== true, 'color must be direct input, not data binding input');
 assert(byAttribute.size.type === 'text', 'size must be text input for Wappler persistence');
 assert(byAttribute.size.defaultValue === '24', 'size default must be a string for Wappler persistence');
+assert(byAttribute.size.dataBindings !== true, 'size must be direct input, not data binding input');
 assert(byAttribute['stroke-width'].type === 'text', 'stroke width must be text input for Wappler persistence');
 assert(byAttribute['stroke-width'].defaultValue === '2', 'stroke width default must be a string for Wappler persistence');
+assert(byAttribute['stroke-width'].dataBindings !== true, 'stroke width must be direct input, not data binding input');
+assert(byAttribute.label.type === 'text', 'label must be manual text input');
+assert(byAttribute.label.dataBindings !== true, 'label must be direct input, not data binding input');
+assert(!variables.some((variable) => variable.dataBindings === true), 'no Lucide fields should show the Data Bindings picker');
 
 const context = {
   window: {},
